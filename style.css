@@ -1,0 +1,590 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* ---- Color tokens ---- */
+  --bg:            #0c0c0e;
+  --bg-card:       #17171a;
+  --bg-card-raise: #1f1f23;
+  --line:          #2b2b30;
+
+  --amber:         #ffb000;
+  --amber-dim:     #7a5200;
+  --amber-glow:    rgba(255, 176, 0, 0.35);
+
+  --text:          #e9e7df;
+  --text-dim:      #8d8c87;
+
+  --sev-1: #4ade80;  /* Touching Grass */
+  --sev-2: #a3e635;  /* Doing Alright */
+  --sev-3: #facc15;  /* Mildly Cooked */
+  --sev-4: #fb923c;  /* Getting Cooked */
+  --sev-5: #f87171;  /* Bro Is Cooked */
+  --sev-6: #ef4444;  /* Extremely Cooked */
+  --sev-7: #b91c1c;  /* It's Actually Over */
+
+  /* ---- Type ---- */
+  --font-display: 'JetBrains Mono', ui-monospace, monospace;
+  --font-body:    'Inter', system-ui, sans-serif;
+
+  /* ---- Layout ---- */
+  --radius: 10px;
+  --max-width: 640px;
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* Scanline overlay — sits above everything, ignores clicks */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.015) 0px,
+    rgba(255, 255, 255, 0.015) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+/* Soft ambient glow in the background, fixed */
+body::after {
+  content: "";
+  position: fixed;
+  top: -20%;
+  left: 50%;
+  translate: -50% 0;
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle, var(--amber-glow) 0%, transparent 65%);
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input {
+  font-family: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* SCREENS — only .active is shown */
+.screen {
+  display: none;
+  min-height: 100vh;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.screen.active {
+  display: flex;
+  animation: screen-in 0.5s ease both;
+}
+
+@keyframes screen-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* LANDING SCREEN */
+.landing-content {
+  max-width: var(--max-width);
+  text-align: center;
+}
+
+.landing-content h1 {
+  font-size: clamp(2.2rem, 7vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text);
+  text-shadow: 0 0 24px var(--amber-glow);
+}
+
+.landing-content h1 .emoji {
+  display: inline-block;
+  filter: grayscale(0) drop-shadow(0 0 14px var(--amber-glow));
+}
+
+.tagline {
+  margin-top: 18px;
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  position: relative;
+  display: inline-block;
+}
+
+/* blinking cursor after the tagline, like a terminal waiting for input */
+.tagline::after {
+  content: "_";
+  color: var(--amber);
+  margin-left: 4px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* BUTTONS */
+.btn {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  padding: 16px 32px;
+  border-radius: var(--radius);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.btn-primary {
+  margin-top: 36px;
+  background: var(--amber);
+  color: #16130a;
+  box-shadow: 0 0 0 1px var(--amber-dim), 0 8px 24px -8px var(--amber-glow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px var(--amber), 0 12px 28px -6px var(--amber-glow);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--line);
+}
+
+.btn-secondary:hover {
+  color: var(--text);
+  border-color: var(--text-dim);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+}
+
+/* QUIZ SCREEN */
+#quiz-screen {
+  flex-direction: column;
+  gap: 0;
+}
+
+.progress-wrap {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto 32px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-card-raise);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.progress-fill {
+  height: 100%;
+  width: 8.33%; /* question 1 of 12 */
+  background: linear-gradient(90deg, var(--amber-dim), var(--amber));
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.progress-label {
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#quiz-form {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  position: relative;
+}
+
+/* fake terminal title bar on the quiz card */
+#quiz-form::before {
+  content: "DAMAGE-SCAN.EXE";
+  position: absolute;
+  top: -11px;
+  left: 24px;
+  background: var(--bg);
+  padding: 0 8px;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--amber-dim);
+}
+
+.question {
+  display: none;
+  animation: question-in 0.35s ease both;
+}
+
+.question.active {
+  display: block;
+}
+
+@keyframes question-in {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.question label,
+.question legend {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+fieldset.question {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove number input spinners */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* number inputs */
+.question input[type="number"] {
+  width: 100%;
+  background: var(--bg-card-raise);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 1.4rem;
+  font-family: var(--font-display);
+  color: var(--amber);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.question input[type="number"]::placeholder {
+  color: var(--text-dim);
+  opacity: 0.5;
+}
+
+.question input[type="number"]:focus {
+  outline: none;
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px var(--amber-glow);
+}
+
+/* MCQ options */
+label.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-card-raise);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.option:hover {
+  border-color: var(--text-dim);
+  color: var(--text);
+}
+
+.option input[type="radio"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  transition: border-color 0.15s ease;
+}
+
+.option input[type="radio"]::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--amber);
+  transform: scale(0);
+  transition: transform 0.15s ease;
+}
+
+.option input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+.option input[type="radio"]:checked {
+  border-color: var(--amber);
+}
+
+.option:has(input[type="radio"]:checked) {
+  border-color: var(--amber);
+  color: var(--text);
+  background: color-mix(in srgb, var(--amber) 8%, var(--bg-card-raise));
+}
+
+.option input[type="radio"]:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.validation-warning {
+  margin-top: 12px;
+  color: var(--sev-5);
+  font-size: 0.9rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.validation-warning.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.quiz-nav {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 20px auto 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.quiz-nav .btn {
+  margin-top: 0;
+  flex: 1;
+}
+
+.quiz-nav .btn-secondary:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* RESULT SCREEN */
+.result-content {
+  max-width: var(--max-width);
+  width: 100%;
+  text-align: center;
+}
+
+.score-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1;
+}
+
+#score-number {
+  font-size: clamp(4rem, 18vw, 7rem);
+  color: var(--amber);
+  text-shadow: 0 0 40px var(--amber-glow);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.score-percent {
+  display: block;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  margin-top: 6px;
+}
+
+#result-category {
+  margin-top: 18px;
+  font-size: 1.6rem;
+  letter-spacing: 0.02em;
+}
+
+.result-message {
+  margin-top: 20px;
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* Severity color classes — JS assigns one of these to
+   #score-number and #result-category based on final score */
+.sev-1 { color: var(--sev-1) !important; }
+.sev-2 { color: var(--sev-2) !important; }
+.sev-3 { color: var(--sev-3) !important; }
+.sev-4 { color: var(--sev-4) !important; }
+.sev-5 { color: var(--sev-5) !important; }
+.sev-6 { color: var(--sev-6) !important; }
+.sev-7 { color: var(--sev-7) !important; }
+
+/* ---- breakdown bars ---- */
+.breakdown {
+  margin-top: 40px;
+  text-align: left;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.breakdown h3 {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 18px;
+}
+
+.breakdown-item {
+  display: grid;
+  grid-template-columns: 110px 1fr 40px;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.breakdown-item:last-child {
+  margin-bottom: 0;
+}
+
+.breakdown-label {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.breakdown-bar {
+  height: 8px;
+  background: var(--bg-card-raise);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.breakdown-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--amber-dim), var(--amber));
+  width: 0%;
+  transition: width 0.6s ease;
+}
+
+.breakdown-value {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--text);
+  text-align: right;
+}
+
+#retry-btn {
+  margin-top: 32px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  #quiz-form {
+    padding: 26px 20px;
+  }
+
+  .question label,
+  .question legend {
+    font-size: 1.05rem;
+  }
+
+  .quiz-nav {
+    flex-direction: row;
+  }
+
+  .breakdown-item {
+    grid-template-columns: 84px 1fr 34px;
+    gap: 8px;
+  }
+
+  .breakdown-label {
+    font-size: 0.72rem;
+  }
+}
+
+/* ACCESSIBILITY — respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .tagline::after {
+    animation: none;
+    opacity: 1;
+  }
+}

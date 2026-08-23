@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How Screwed Am I? 💀</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ======================== -->
+  <!-- LANDING SCREEN -->
+  <!-- ======================== -->
+  <section id="landing-screen" class="screen active">
+    <div class="landing-content">
+      <h1>HOW SCREWED AM I? <span class="emoji">💀</span></h1>
+      <p class="tagline">Find out how badly your life is currently falling apart.</p>
+      <button id="start-btn" class="btn btn-primary">CALCULATE MY DAMAGE</button>
+    </div>
+  </section>
+
+  <!-- ======================== -->
+  <!-- QUIZ SCREEN -->
+  <!-- ======================== -->
+  <section id="quiz-screen" class="screen">
+
+    <div class="progress-wrap">
+      <div class="progress-bar">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+      <p id="progress-label" class="progress-label">Question 1 of 12</p>
+    </div>
+
+    <form id="quiz-form">
+
+      <!-- Q1: Sleep hours (integer) -->
+      <div class="question" data-question="1">
+        <label for="q1">How many hours did you sleep last night?</label>
+        <input type="number" id="q1" name="sleepHours" min="0" max="12" step="0.5" placeholder="e.g. 6" required />
+      </div>
+
+      <!-- Q2: Screen time hours (integer) -->
+      <div class="question" data-question="2">
+        <label for="q2">How many hours have you spent scrolling today?</label>
+        <input type="number" id="q2" name="screenHours" min="0" max="16" step="0.5" placeholder="e.g. 4" required />
+      </div>
+
+      <!-- Q3: Pending tasks (integer) -->
+      <div class="question" data-question="3">
+        <label for="q3">How many assignments/tasks are currently pending?</label>
+        <input type="number" id="q3" name="pendingTasks" min="0" max="20" step="1" placeholder="e.g. 5" required />
+      </div>
+
+      <!-- Q4: Days until deadline (integer) -->
+      <div class="question" data-question="4">
+        <label for="q4">How many days until your next important deadline?</label>
+        <input type="number" id="q4" name="daysUntilDeadline" min="0" max="30" step="1" placeholder="e.g. 3" required />
+      </div>
+
+      <!-- Q5: Productive hours (integer) -->
+      <div class="question" data-question="5">
+        <label for="q5">How many hours were you actually productive today?</label>
+        <input type="number" id="q5" name="productiveHours" min="0" max="12" step="0.5" placeholder="e.g. 2" required />
+      </div>
+
+      <!-- Q6: "I'll do it tomorrow" count (integer) -->
+      <div class="question" data-question="6">
+        <label for="q6">How many times have you said "I'll do it tomorrow"?</label>
+        <input type="number" id="q6" name="procrastinationCount" min="0" max="10" step="1" placeholder="e.g. 3" required />
+      </div>
+
+      <!-- Q7: Relationship with biggest task (MCQ) -->
+      <fieldset class="question" data-question="7">
+        <legend>What's your current relationship with your biggest task?</legend>
+        <label class="option"><input type="radio" name="taskRelationship" value="0" required /> We're best friends, I finished early</label>
+        <label class="option"><input type="radio" name="taskRelationship" value="35" /> It's a situationship, we vibe sometimes</label>
+        <label class="option"><input type="radio" name="taskRelationship" value="75" /> I've been avoiding eye contact with it for a week</label>
+        <label class="option"><input type="radio" name="taskRelationship" value="100" /> It's basically a stranger to me</label>
+      </fieldset>
+
+      <!-- Q8: Financial situation (MCQ) -->
+      <fieldset class="question" data-question="8">
+        <legend>What's your current financial situation?</legend>
+        <label class="option"><input type="radio" name="financialSituation" value="0" required /> Thriving, savings intact</label>
+        <label class="option"><input type="radio" name="financialSituation" value="35" /> Fine, but I check my balance nervously</label>
+        <label class="option"><input type="radio" name="financialSituation" value="70" /> Living paycheck to paycheck</label>
+        <label class="option"><input type="radio" name="financialSituation" value="100" /> Broke, negotiating with my bank account</label>
+      </fieldset>
+
+      <!-- Q9: Productivity level (MCQ) -->
+      <fieldset class="question" data-question="9">
+        <legend>How would you rate your productivity level today?</legend>
+        <label class="option"><input type="radio" name="productivityLevel" value="0" required /> Productivity god, unstoppable</label>
+        <label class="option"><input type="radio" name="productivityLevel" value="30" /> Got a few things done</label>
+        <label class="option"><input type="radio" name="productivityLevel" value="65" /> Mostly just moved windows around</label>
+        <label class="option"><input type="radio" name="productivityLevel" value="100" /> Opened 47 tabs and closed my laptop</label>
+      </fieldset>
+
+      <!-- Q10: Sleep schedule (MCQ) -->
+      <fieldset class="question" data-question="10">
+        <legend>How would you describe your sleep schedule?</legend>
+        <label class="option"><input type="radio" name="sleepSchedule" value="0" required /> Consistent, asleep by 11</label>
+        <label class="option"><input type="radio" name="sleepSchedule" value="35" /> Somewhat chaotic</label>
+        <label class="option"><input type="radio" name="sleepSchedule" value="70" /> 3am is my bedtime now</label>
+        <label class="option"><input type="radio" name="sleepSchedule" value="100" /> What is a sleep schedule</label>
+      </fieldset>
+
+      <!-- Q11: Exam confidence (MCQ) -->
+      <fieldset class="question" data-question="11">
+        <legend>How confident are you feeling about your next exam/test?</legend>
+        <label class="option"><input type="radio" name="examConfidence" value="0" required /> I could teach the class</label>
+        <label class="option"><input type="radio" name="examConfidence" value="30" /> I'll be fine, probably</label>
+        <label class="option"><input type="radio" name="examConfidence" value="65" /> Praying to the curve gods</label>
+        <label class="option"><input type="radio" name="examConfidence" value="100" /> I have accepted my fate</label>
+      </fieldset>
+
+      <!-- Q12: What happens when you sit down to work (MCQ) -->
+      <fieldset class="question" data-question="12">
+        <legend>What happens when you sit down to work?</legend>
+        <label class="option"><input type="radio" name="sitDownBehavior" value="0" required /> I lock in immediately</label>
+        <label class="option"><input type="radio" name="sitDownBehavior" value="40" /> 10 minutes in, then I check my phone</label>
+        <label class="option"><input type="radio" name="sitDownBehavior" value="70" /> I reorganize my desk instead</label>
+        <label class="option"><input type="radio" name="sitDownBehavior" value="100" /> I black out and wake up on YouTube</label>
+      </fieldset>
+
+    </form>
+
+    <div class="quiz-nav">
+      <button type="button" id="back-btn" class="btn btn-secondary">Back</button>
+      <button type="button" id="next-btn" class="btn btn-primary">Next</button>
+    </div>
+  </section>
+
+  <!-- ======================== -->
+  <!-- RESULT SCREEN -->
+  <!-- ======================== -->
+  <section id="result-screen" class="screen">
+    <div class="result-content">
+      <div class="score-display">
+        <span id="score-number">0</span><span class="score-percent">% SCREWED</span>
+      </div>
+
+      <h2 id="result-category">🟢 TOUCHING GRASS</h2>
+
+      <p id="result-message" class="result-message">
+        <!-- filled dynamically -->
+      </p>
+
+      <div class="breakdown">
+        <h3>Breakdown</h3>
+        <ul id="breakdown-list" class="breakdown-list">
+          <!-- filled dynamically, one bar per category -->
+        </ul>
+      </div>
+
+      <button id="retry-btn" class="btn btn-primary">Try Again</button>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
