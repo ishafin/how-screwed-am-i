@@ -51,17 +51,17 @@ const MESSAGE_POOLS = {
   doingAlright: [
     (s) => `${s.pendingTasks} tasks pending but you've got ${s.daysUntilDeadline} days. That's basically a vacation.`,
     (s) => `${s.sleepHours}h of sleep, a semi-functional brain. Could be worse. Could be much worse.`,
-    (s) => `You said "I'll do it tomorrow" ${s.procrastinationCount} times, but you're still standing. Respect.`,
+    (s) => `A solid ${s.procrastinationCount}/10 on the "I'll do it tomorrow" scale, but you're still standing. Respect.`,
   ],
   mildlyCooked: [
     (s) => `${s.screenHours}h of scrolling and ${s.pendingTasks} pending tasks. The math isn't mathing yet, but it's close.`,
     (s) => `${s.daysUntilDeadline} days left and ${s.productiveHours}h of actual work done today. We need to talk.`,
-    (s) => `You're not on fire, but you can smell smoke. ${s.procrastinationCount} "tomorrow"s and counting.`,
+    (s) => `You're not on fire, but you can smell smoke. Your "tomorrow" scale is at ${s.procrastinationCount}/10.`,
   ],
   gettingCooked: [
     (s) => `${s.pendingTasks} tasks pending, ${s.sleepHours}h of sleep, and a deadline ${s.daysUntilDeadline} days out. The oven is preheating.`,
     (s) => `You scrolled for ${s.screenHours}h and were productive for ${s.productiveHours}h. The ratio is not in your favor.`,
-    (s) => `${s.procrastinationCount} times you said "tomorrow." Tomorrow is now today. Today is now a problem.`,
+    (s) => `A ${s.procrastinationCount}/10 habit of saying "tomorrow." Tomorrow is now today. Today is now a problem.`,
   ],
   broIsCooked: [
     (s) => `${s.daysUntilDeadline} days left, ${s.pendingTasks} tasks pending, and you found ${s.screenHours}h to scroll anyway. Bold strategy.`,
@@ -70,12 +70,12 @@ const MESSAGE_POOLS = {
   ],
   extremelyCooked: [
     (s) => `You have ${s.daysUntilDeadline} days left, ${s.pendingTasks} assignments pending, and somehow found ${s.screenHours} hours to scroll. Your productivity has officially left the server.`,
-    (s) => `${s.sleepHours}h of sleep, ${s.procrastinationCount} "I'll do it tomorrow"s, and a deadline that is basically breathing on your neck.`,
+    (s) => `${s.sleepHours}h of sleep, a ${s.procrastinationCount}/10 procrastination habit, and a deadline that is basically breathing on your neck.`,
     (s) => `${s.productiveHours}h of real work against ${s.pendingTasks} pending tasks. At this rate the tasks are winning by a landslide.`,
   ],
   actuallyOver: [
     (s) => `${s.pendingTasks} tasks, ${s.daysUntilDeadline} days, ${s.sleepHours}h of sleep. There is no version of this math that ends well.`,
-    (s) => `You said "tomorrow" ${s.procrastinationCount} times and scrolled for ${s.screenHours}h. Tomorrow called. It's not coming to save you.`,
+    (s) => `A ${s.procrastinationCount}/10 procrastination level and ${s.screenHours}h of scrolling. Tomorrow called. It's not coming to save you.`,
     (s) => `This isn't a Screwed Score anymore, it's a eulogy. ${s.productiveHours}h productive out of a very long, very doomed day.`,
   ],
 };
@@ -281,7 +281,7 @@ function calculateScore(answers) {
   const productivityDanger = (productivityFromHours + productivityFromLevel) / 2;
 
   // --- Procrastination: avg of "tomorrow" count and sit-down MCQ ---
-  const procFromCount = clamp((answers.procrastinationCount / 5) * 100);
+  const procFromCount = clamp((answers.procrastinationCount / 10) * 100);
   const procFromSitDown = clamp(answers.sitDownBehavior);
   const procrastinationDanger = (procFromCount + procFromSitDown) / 2;
 
