@@ -37,7 +37,7 @@ how-screwed-am-i/
 │
 ├── index.html    → page structure (landing, quiz, result screens)
 ├── style.css     → all styling and animations
-├── script.js     → quiz logic, scoring engine, result rendering
+└── script.js     → quiz logic, scoring engine, result rendering
 ```
 
 ## Running Locally
