@@ -48,5 +48,5 @@ No build tools needed. Just open `index.html` in a browser.
 ## Tech Stack
 
 - HTML
-- CSS (vanilla, no frameworks)
-- JavaScript (vanilla, no frameworks)
+- CSS
+- JavaScript
